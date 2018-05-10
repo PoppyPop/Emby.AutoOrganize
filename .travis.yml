@@ -1,4 +1,4 @@
-language  : csharp
+language: csharp
 mono: none
 dotnet: 1.1.9
 solution: Emby.AutoOrganize.sln
@@ -6,8 +6,11 @@ install:
 - dotnet restore
 script :
 - dotnet build -c Release
-deploy       :
-  provider : releases
+branches:
+  only:
+  - master
+deploy:
+  provider: releases
   api_key:
     secure: oCp/cdpb1vqY4N3PfDW5aoW716lhmbeeEoj2RKuMWStlDmQbEBw7kPV5vJ0nmIiXSyFy+4QaopSEUiVuIQidKVr4eeMTQzyWV3KCx03IkPrB3lSPxQK8Y6pwLtNgy0gy/TFYbEhuiY+LVHNbv9py4S9FIl2FN8mgFhwLzUjcGke97AQvnzb8x1uvCGBCw3qReL+4mg4DdNwOcXgKOKEQkXfidyQAdaoh76qX+tuXW/GdIyseSxGFhNwxiXBK8Ul3XuDyxLgXn5iElohcvk6IwaXRYJOK1NY6vWx5UaBE60jDa02l6n7D1vr+zzVfzQxYFWbtN2pTOnKaUf0h54/6qO0We/RVPViMh0KPW1Q6nGe25de8Ff4z9Cn6yXYIlm9wV2JnLIF8OQayKkPjOKd+VeWV0BMcddRbtGI+XcB1b1MQeyBgNggpmpgEpiqHxw+7zwdsyYVrf03AS0InQl5eO0z7JaD3M4zbyZ+0c1ZGQmLbbMRQof5JTnY4ydwxsz1V8t6HnF8jwtWvQ8PisMdzw58VJZ2DeJ1RxRcl98RZYBiyDtNmjTf1X3vU4pajWoKj8IqyEj1Ns4isWswxAmgMa5bPdocbLAflrZpmmX0OPHSCSLVeHfzNgy6Uw0VAP2RhTSENKmMO5ZSS3z52HxmCCO2PLtoDdMO25IBz0US9FF8=
   file: Emby.AutoOrganize/bin/Release/netstandard1.3/Emby.AutoOrganize.dll
