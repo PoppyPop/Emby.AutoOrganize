@@ -1,6 +1,6 @@
 language: csharp
 mono: none
-dotnet: 1.1.9
+dotnet: 2.0.0
 solution: Emby.AutoOrganize.sln
 install:
 - dotnet restore
