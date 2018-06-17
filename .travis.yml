@@ -4,18 +4,18 @@ dotnet: 2.0.0
 solution: Emby.AutoOrganize.sln
 install:
 - dotnet restore
-script :
+script:
 - dotnet build -c Release
 branches:
   only:
   - master
-  - /^\d+\.\d+\.\d+\.\d+$/
+  - "/^\\d+\\.\\d+\\.\\d+\\.\\d+$/"
 deploy:
   provider: releases
   api_key:
-    secure: oCp/cdpb1vqY4N3PfDW5aoW716lhmbeeEoj2RKuMWStlDmQbEBw7kPV5vJ0nmIiXSyFy+4QaopSEUiVuIQidKVr4eeMTQzyWV3KCx03IkPrB3lSPxQK8Y6pwLtNgy0gy/TFYbEhuiY+LVHNbv9py4S9FIl2FN8mgFhwLzUjcGke97AQvnzb8x1uvCGBCw3qReL+4mg4DdNwOcXgKOKEQkXfidyQAdaoh76qX+tuXW/GdIyseSxGFhNwxiXBK8Ul3XuDyxLgXn5iElohcvk6IwaXRYJOK1NY6vWx5UaBE60jDa02l6n7D1vr+zzVfzQxYFWbtN2pTOnKaUf0h54/6qO0We/RVPViMh0KPW1Q6nGe25de8Ff4z9Cn6yXYIlm9wV2JnLIF8OQayKkPjOKd+VeWV0BMcddRbtGI+XcB1b1MQeyBgNggpmpgEpiqHxw+7zwdsyYVrf03AS0InQl5eO0z7JaD3M4zbyZ+0c1ZGQmLbbMRQof5JTnY4ydwxsz1V8t6HnF8jwtWvQ8PisMdzw58VJZ2DeJ1RxRcl98RZYBiyDtNmjTf1X3vU4pajWoKj8IqyEj1Ns4isWswxAmgMa5bPdocbLAflrZpmmX0OPHSCSLVeHfzNgy6Uw0VAP2RhTSENKmMO5ZSS3z52HxmCCO2PLtoDdMO25IBz0US9FF8=
+    secure: q3QLuwWTSbVxUvuuUz4qYj2DPqYAn563skybARpptMOx/IWu5wuLIr29XrBYyH0T5B6KSN9Lfa3FnZT4CSG6TvAYXW+JH3AwyNg0eQdlaY/MQ1GCbIMVyZn8vpo/dU5S2+QUZ/ewEyDCJgAHA5WeX7CIKlOSpCWM3brgrcUD5XXmubCDKfc6QCBSI3Vi//ZevZyeMxE3HzQnF26Hanf0tE4X71bAneYXXKi550gFNMOIp0voXB29AXFTCLz3XcENHIUAOPOi7CKmju4vTaIuuv5fmigTlZkS0ZSnbQLpkCyT7uts165GQehjHP7jZUw1lTQxwExcPguLL1BCtnwT0Xr7ZiaZzywe/XKKHPobKGjhBPfZr9UytwCDTSYmq7IkvVD/xkoJuJFygRzgSC1ktc7xnsl8gNYEIHCte/H7X3iO2WPE8SOVeDm8Esj4Gem4goFKMGGji249MAuyiQoOhUw7Lv9BRGyW18OAGg9Qf/wk2Q0rmA18vTEuFmOt0jyUmyD0aFcxT8zWZ42X/rcn2J1ZGUemfQHPERo9a/3JAyn0mujFQyEs3nfIGRzDNZ9JY5mSaOj16k0aVIKQVgldr1yDMcgFArG2XzPx8UCchRXIaOHf7BALIxS5y3rPxtFGPfxIGSaBEySV8F1PlTgqK0Rxi9hzDJVilmdJZVpX/9o=
   file: Emby.AutoOrganize/bin/Release/netstandard1.3/Emby.AutoOrganize.dll
   skip_cleanup: true
-  on :
+  on:
     repo: PoppyPop/Emby.AutoOrganize
     tags: true
