@@ -23,10 +23,72 @@
                     <input is="emby-input" id="txtMinFileSize" type="number" label="Min file size:" pattern="[0-9]*" min="0" required />
                     <div class="fieldDescription">Files smaller than this will be ignored.</div>
                 </div>
-                <div class="inputContainer">
-                    <input is="emby-input" id="txtSeasonFolderPattern" type="text" label="Season folder pattern:" required />
-                    <div class="fieldDescription seasonFolderFieldDescription"></div>
+
+                <div is="emby-collapse" title="Season directory pattern">
+                    <div class="collapseContent">
+                        <br />
+                        <div class="inputContainer">
+                            <input is="emby-input" id="txtSeasonFolderPattern" type="text" label="Season folder pattern:" required />
+                            <div class="fieldDescription seasonFolderFieldDescription"></div>
+                        </div>
+
+                        <br />
+                        <p>Supported Patterns</p>
+
+                        <table id="series-table" class="ui-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Term</th>
+                                    <th>Pattern</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Series name</td>
+                                    <td>%sn</td>
+                                    <td>Series name</td>
+                                </tr>
+                                <tr>
+                                    <td>Series name</td>
+                                    <td>%s.n</td>
+                                    <td>Series.name</td>
+                                </tr>
+                                <tr>
+                                    <td>Series name</td>
+                                    <td>%s_n</td>
+                                    <td>Series_name</td>
+                                </tr>
+                                <tr>
+                                    <td>Series year</td>
+                                    <td>%sy</td>
+                                    <td>2017</td>
+                                </tr>
+                                <tr>
+                                    <td>Season number</td>
+                                    <td>%s</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>Season number</td>
+                                    <td>%0s</td>
+                                    <td>01</td>
+                                </tr>
+                                <tr>
+                                    <td>Season number</td>
+                                    <td>%00s</td>
+                                    <td>001</td>
+                                </tr>
+                                <tr>
+                                    <td>Original Directory Path</td>
+                                    <td>Season %s</td>
+                                    <td>Season 1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
                 <div class="inputContainer">
                     <input is="emby-input" id="txtSeasonZeroName" type="text" label="Season zero folder name:" required />
                     <div class="fieldDescription"></div>
@@ -130,6 +192,11 @@
                                     <td>Season number</td>
                                     <td>%0s</td>
                                     <td>01</td>
+                                </tr>
+                                <tr>
+                                    <td>Season number</td>
+                                    <td>%00s</td>
+                                    <td>001</td>
                                 </tr>
                                 <tr>
                                     <td>Episode number</td>
