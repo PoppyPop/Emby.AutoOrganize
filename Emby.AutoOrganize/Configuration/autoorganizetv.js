@@ -249,9 +249,18 @@
         }
 
         function updateSeasonPatternHelp() {
+            var seriesName = "Series Name";
+            var seriesYear = "2017";
 
             var value = view.querySelector('#txtSeasonFolderPattern').value;
-            value = value.replace('%s', '1').replace('%0s', '01').replace('%00s', '001');
+
+            value = value.replace('%sn', seriesName)
+                .replace('%s.n', seriesName.replace(' ', '.'))
+                .replace('%s_n', seriesName.replace(' ', '_'))
+                .replace('%sy', seriesYear)
+                .replace('%s', '1')
+                .replace('%0s', '01')
+                .replace('%00s', '001');
 
             var replacementHtmlResult = 'Result: ' + value;
 

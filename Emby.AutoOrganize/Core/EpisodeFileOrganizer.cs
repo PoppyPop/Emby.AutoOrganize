@@ -771,7 +771,7 @@ namespace Emby.AutoOrganize.Core
                         && e.IndexNumber == episodeNumber
                         && e.IndexNumberEnd == endingEpiosdeNumber
                         && e.LocationType == LocationType.FileSystem
-                        && Path.GetExtension(e.Path)==Path.GetExtension(result.OriginalPath));
+                        && Path.GetExtension(e.Path) == Path.GetExtension(result.OriginalPath));
 
             if (episode == null)
             {
@@ -960,6 +960,9 @@ namespace Emby.AutoOrganize.Core
         {
             var path = series.Path;
 
+            var seriesName = series.Name.Trim();
+            var serieYear = series.ProductionYear;
+
             if (ContainsEpisodesWithoutSeasonFolders(series))
             {
                 return path;
@@ -971,9 +974,14 @@ namespace Emby.AutoOrganize.Core
             }
 
             var seasonFolderName = options.SeasonFolderPattern
+                .Replace("%sn", seriesName)
+                .Replace("%s.n", seriesName.Replace(" ", "."))
+                .Replace("%s_n", seriesName.Replace(" ", "_"))
+                .Replace("%sy", serieYear.ToString())
                 .Replace("%s", seasonNumber.ToString(_usCulture))
                 .Replace("%0s", seasonNumber.ToString("00", _usCulture))
-                .Replace("%00s", seasonNumber.ToString("000", _usCulture));
+                .Replace("%00s", seasonNumber.ToString("000", _usCulture))
+                ;
 
             return Path.Combine(path, _fileSystem.GetValidFilename(seasonFolderName));
         }
@@ -993,9 +1001,9 @@ namespace Emby.AutoOrganize.Core
 
         private void SetEpisodeFileName(string sourcePath, Series series, Season season, Episode episode, TvFileOrganizationOptions options)
         {
-            var seriesName = _fileSystem.GetValidFilename(series.Name).Trim();
+            var seriesName = series.Name.Trim();
 
-            var episodeTitle = _fileSystem.GetValidFilename(episode.Name).Trim();
+            var episodeTitle = episode.Name.Trim();
 
             if (!episode.IndexNumber.HasValue || !season.IndexNumber.HasValue)
             {
