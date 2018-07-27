@@ -354,7 +354,7 @@
 
         html += '<td class="detailTableBodyCell">';
         var hide = item.IsInProgress ? '' : ' hide';
-        html += '<img src="css/images/throbber.gif" alt="" class="syncSpinner' + hide + '" style="vertical-align: middle;" />';
+        html += '<img src="thirdparty/jstree/themes/default/throbber.gif" alt="" class="syncSpinner' + hide + '" style="vertical-align: middle;" />';
         html += '</td>';
 
         html += '<td class="detailTableBodyCell" data-title="Date">';
@@ -514,7 +514,15 @@
                 progressElem: view.querySelector('.organizeProgress'),
                 panel: view.querySelector('.organizeTaskPanel'),
                 taskKey: 'AutoOrganize',
-                button: view.querySelector('.btnOrganize')
+                button: view.querySelector('#btnOrganize')
+            });
+
+            view.querySelector('#btnOrganize').addEventListener('DOMSubtreeModified', function () {
+                if (view.querySelector('#btnOrganize').disabled) {
+                    view.querySelector('#btnOrganize').classList.add('hide');
+                } else {
+                    view.querySelector('#btnOrganize').classList.remove('hide');
+                }
             });
         });
 
@@ -531,7 +539,7 @@
             // off here
             taskButton({
                 mode: 'off',
-                button: view.querySelector('.btnOrganize')
+                button: view.querySelector('#btnOrganize')
             });
         });
     };
