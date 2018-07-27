@@ -57,10 +57,11 @@ namespace Emby.AutoOrganize.Core
 
             var options = GetAutoOrganizeOptions();
 
+            var fileOrganizationService = PluginEntryPoint.Current.FileOrganizationService;
+
             if (options.TvOptions.IsEnabled)
             {
                 queueTv = options.TvOptions.QueueLibraryScan;
-                var fileOrganizationService = PluginEntryPoint.Current.FileOrganizationService;
 
                 await new TvFolderOrganizer(_libraryManager, _logger, _fileSystem, _libraryMonitor, fileOrganizationService, _config, _providerManager)
                     .Organize(options.TvOptions, cancellationToken, progress).ConfigureAwait(false);
@@ -70,7 +71,6 @@ namespace Emby.AutoOrganize.Core
             if (options.MovieOptions.IsEnabled)
             {
                 queueMovie = options.MovieOptions.QueueLibraryScan;
-                var fileOrganizationService = PluginEntryPoint.Current.FileOrganizationService;
 
                 await new MovieFolderOrganizer(_libraryManager, _logger, _fileSystem, _libraryMonitor, fileOrganizationService, _config, _providerManager)
                     .Organize(options.MovieOptions, cancellationToken, progress).ConfigureAwait(false);
