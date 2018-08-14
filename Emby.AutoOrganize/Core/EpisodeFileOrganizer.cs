@@ -196,7 +196,7 @@ namespace Emby.AutoOrganize.Core
                 _logger.ErrorException("Error organizing file", ex);
             }
 
-            await _organizationService.SaveResult(result, CancellationToken.None).ConfigureAwait(false);
+            _organizationService.SaveResult(result, CancellationToken.None);
 
             return result;
         }
@@ -354,7 +354,7 @@ namespace Emby.AutoOrganize.Core
                     result,
                     cancellationToken).ConfigureAwait(false);
 
-                await _organizationService.SaveResult(result, CancellationToken.None).ConfigureAwait(false);
+                _organizationService.SaveResult(result, CancellationToken.None);
             }
             catch (Exception ex)
             {
@@ -469,7 +469,7 @@ namespace Emby.AutoOrganize.Core
 
             if (isNew)
             {
-                await _organizationService.SaveResult(result, cancellationToken);
+                _organizationService.SaveResult(result, cancellationToken);
             }
 
             if (!_organizationService.AddToInProgressList(result, isNew))
@@ -652,7 +652,7 @@ namespace Emby.AutoOrganize.Core
                 return new List<string>();
             }
 
-            var episodePaths = series.GetRecursiveChildren(i => i is Episode)
+            var episodePaths = series.GetRecursiveChildren()
                 .OfType<Episode>()
                 .Where(i =>
                 {
@@ -805,7 +805,7 @@ namespace Emby.AutoOrganize.Core
                     season = new Season
                     {
                         Id = Guid.NewGuid(),
-                        SeriesId = series.Id,
+                        SeriesId = series.InternalId,
                         IndexNumber = episode.ParentIndexNumber,
                     };
                 }
@@ -939,7 +939,7 @@ namespace Emby.AutoOrganize.Core
             var episode = new Episode
             {
                 ParentIndexNumber = seasonNumber,
-                SeriesId = series.Id,
+                SeriesId = series.InternalId,
                 IndexNumber = episodeNumber,
                 IndexNumberEnd = endingEpisodeNumber,
                 ProviderIds = episodeSearch.ProviderIds,
