@@ -97,7 +97,8 @@
     var extractedYear;
     var currentNewItem;
     var existingMediasHtml;
-    var mediasLocationsCount = 0;
+    var mediasLocationsCount = -1;
+    var mediasLocations = [];
 
     function onApiFailure(e) {
 
@@ -129,17 +130,71 @@
         populateMedias(context);
     }
 
+    function initFolders(context) {
+        if (mediasLocationsCount == -1) {
+            ApiClient.getVirtualFolders().then(function (result) {
+
+                mediasLocations = [];
+
+                for (var n = 0; n < result.length; n++) {
+
+                    var virtualFolder = result[n];
+
+                    for (var i = 0, length = virtualFolder.Locations.length; i < length; i++) {
+                        var location = {
+                            value: virtualFolder.Locations[i],
+                            display: virtualFolder.Name + ': ' + virtualFolder.Locations[i],
+                            collectionType: virtualFolder.CollectionType
+                        };
+
+                        mediasLocations.push(location);
+                    }
+                }
+
+                updateMediaLocation(context);
+
+            }, onApiFailure);
+        }
+    }
+
+    function updateMediaLocation(context) {
+
+        var locaLocations = [];
+
+        for (var n = 0; n < mediasLocations.length; n++) {
+
+            var virtualFolder = mediasLocations[n];
+
+            if ((chosenType == 'Movie' && virtualFolder.collectionType == 'movies') ||
+                (chosenType == 'Series' && virtualFolder.collectionType == 'tvshows')) {
+                locaLocations.push(location);
+            }
+        }
+
+        mediasLocationsCount = locaLocations.length;
+
+        var mediasFolderHtml = locaLocations.map(function (s) {
+            return '<option value="' + s.value + '">' + s.display + '</option>';
+        }).join('');
+
+        if (locaLocations.length > 1) {
+            // If the user has multiple folders, add an empty item to enforce a manual selection
+            mediasFolderHtml = '<option value=""></option>' + mediasFolderHtml;
+        }
+
+        context.querySelector('#selectMediaFolder').innerHTML = mediasFolderHtml;
+    }
+
     function populateMedias(context) {
 
         loading.show();
+
         ApiClient.getItems(null, {
             recursive: true,
             includeItemTypes: chosenType,
             sortBy: 'SortName'
 
         }).then(function (result) {
-
-            loading.hide();
 
             existingMediasHtml = result.Items.map(function (s) {
 
@@ -151,41 +206,9 @@
 
             context.querySelector('#selectMedias').innerHTML = existingMediasHtml;
 
-            ApiClient.getVirtualFolders().then(function (result) {
+            updateMediaLocation(context);
 
-                var mediasLocations = [];
-
-                for (var n = 0; n < result.length; n++) {
-
-                    var virtualFolder = result[n];
-
-                    for (var i = 0, length = virtualFolder.Locations.length; i < length; i++) {
-                        var location = {
-                            value: virtualFolder.Locations[i],
-                            display: virtualFolder.Name + ': ' + virtualFolder.Locations[i]
-                        };
-
-                        if ((chosenType == 'Movie' && virtualFolder.CollectionType == 'movies') || 
-                            (chosenType == 'Series' && virtualFolder.CollectionType == 'tvshows')) {
-                            mediasLocations.push(location);
-                        } 
-                    }
-                }
-
-                mediasLocationsCount = mediasLocations.length;
-
-                var mediasFolderHtml = mediasLocations.map(function (s) {
-                    return '<option value="' + s.value + '">' + s.display + '</option>';
-                }).join('');
-
-                if (mediasLocations.length > 1) {
-                    // If the user has multiple folders, add an empty item to enforce a manual selection
-                    mediasFolderHtml = '<option value=""></option>' + mediasFolderHtml;
-                }
-
-                context.querySelector('#selectMediaFolder').innerHTML = mediasFolderHtml;
-
-            }, onApiFailure);
+            loading.hide();
 
         }, onApiFailure);
     }
@@ -329,7 +352,7 @@
                 break;
             case "Movie":
                 dlg.querySelector('#selectMedias').setAttribute('label', 'Movie');
-                dlg.querySelector('[for="selectMedias"]').innerHTML =  'Movie';
+                dlg.querySelector('[for="selectMedias"]').innerHTML = 'Movie';
 
                 dlg.querySelector('#divPermitChoice').classList.remove('hide');
                 dlg.querySelector('#divGlobalChoice').classList.remove('hide');
@@ -387,6 +410,8 @@
                     html += template;
 
                     dlg.innerHTML = html;
+
+                    initFolders(dlg);
 
                     dlg.querySelector('.formDialogHeaderTitle').innerHTML = 'Organize';
 
