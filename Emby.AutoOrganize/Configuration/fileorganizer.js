@@ -131,7 +131,6 @@
     }
 
     function initFolders(context) {
-        if (mediasLocationsCount == -1) {
             ApiClient.getVirtualFolders().then(function (result) {
 
                 mediasLocations = [];
@@ -154,7 +153,6 @@
                 updateMediaLocation(context);
 
             }, onApiFailure);
-        }
     }
 
     function updateMediaLocation(context) {
@@ -167,7 +165,7 @@
 
             if ((chosenType == 'Movie' && virtualFolder.collectionType == 'movies') ||
                 (chosenType == 'Series' && virtualFolder.collectionType == 'tvshows')) {
-                locaLocations.push(location);
+                locaLocations.push(virtualFolder);
             }
         }
 
@@ -378,6 +376,11 @@
                 initEpisodeForm(dlg, item);
                 break;
         }
+
+        initFolders(dlg);
+
+        dlg.querySelector('#selectMedias').value = "";
+        selectedMediasChanged(dlg);
     }
 
     return {
@@ -410,8 +413,6 @@
                     html += template;
 
                     dlg.innerHTML = html;
-
-                    initFolders(dlg);
 
                     dlg.querySelector('.formDialogHeaderTitle').innerHTML = 'Organize';
 
