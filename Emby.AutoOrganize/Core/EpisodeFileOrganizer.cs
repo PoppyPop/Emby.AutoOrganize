@@ -300,11 +300,7 @@ namespace Emby.AutoOrganize.Core
 
                     series.ProviderIds = request.NewSeriesProviderIds;
 
-                    // Temporary : Waiting for a core fix : Correctly set the parent of the Series
-                    if (_libraryManager.FindByPath(request.TargetFolder, true) is Folder baseFolder)
-                    {
-                        baseFolder.AddChild(series, cancellationToken);
-                    }
+                    _libraryManager.CreateItem(series, null);
                 }
             }
 
@@ -659,8 +655,7 @@ namespace Emby.AutoOrganize.Core
                     var locationType = i.LocationType;
 
                     // Must be file system based and match exactly
-                    if (locationType != LocationType.Remote &&
-                        locationType != LocationType.Virtual &&
+                    if (locationType != LocationType.Virtual &&
                         i.ParentIndexNumber.HasValue &&
                         i.ParentIndexNumber.Value == series.ParentIndexNumber &&
                         i.IndexNumber.HasValue &&
